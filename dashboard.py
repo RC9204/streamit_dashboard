@@ -28,6 +28,5 @@ if st.button('Obtenir les prédictions'):
     if response.status_code == 200:
         result = response.json()
         st.write(f"Prédiction : {result['prediction']}")
-        st.write(f"Probabilité : {result['probability']}")
     else:
         st.write("Erreur lors de l'obtention des prédictions.")
