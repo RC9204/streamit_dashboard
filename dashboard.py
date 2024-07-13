@@ -3,8 +3,10 @@ import json
 import streamlit as st
 import pandas as pd
 import shap
+import random
 import pickle
 import matplotlib.pyplot as plt
+import lightgbm as lgb
 
 url = 'https://projet-17-rcuaz-heroku-0e22e8a46c1f.herokuapp.com/predict'
 headers = {'Content-Type': 'application/json'}
