@@ -31,7 +31,8 @@ data = {'SK_ID_CURR': selected_client_id}
 response = requests.post(url, data=json.dumps(data), headers=headers)
 
 y_pred_proba = response.json()
-y_pred_lim = (y_pred_proba >= 0.4).astype(int)
+threshold = 0.4
+credit_accepted = 'Non' if y_pred_proba >= threshold else 'Oui'
 
 explainer = shap.TreeExplainer(modeleP17)
 shap_values = explainer.shap_values(random_observation_df)
@@ -41,14 +42,13 @@ client_id = random_observation_df['SK_ID_CURR'].values[0]
 st.title(f"Dashboard de Credit")
 st.markdown(f"### Num client: {client_id}")
 
-credit_accepted = 'Non' if y_pred_lim[0] == 1 else 'Oui'
 st.markdown(f"### Credit accepte: {credit_accepted}")
 
 st.markdown(f"### Score du client")
 st.markdown(f"Score: {y_pred_proba[0]:.2f}")
 threshold = 0.4
 fig, ax = plt.subplots(figsize=(6, 1))
-ax.barh([0], [y_pred_proba[0]], color=['green' if y_pred_proba[0] < threshold else 'red'])
+ax.barh([0], [y_pred_proba[0]], color=['green' if credit_accepted = 'Oui' else 'red'])
 ax.axvline(x=threshold, color='blue', linestyle='--')
 ax.set_xlim(0, 1)
 ax.set_yticks([])
