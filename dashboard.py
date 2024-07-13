@@ -48,7 +48,7 @@ st.markdown(f"### Score du client")
 st.markdown(f"Score: {y_pred_proba[0]:.2f}")
 threshold = 0.4
 fig, ax = plt.subplots(figsize=(6, 1))
-ax.barh([0], [y_pred_proba[0]], color=['green' if credit_accepted = 'Oui' else 'red'])
+ax.barh([0], [y_pred_proba[0]], color=['green' if credit_accepted == 'Oui' else 'red'])
 ax.axvline(x=threshold, color='blue', linestyle='--')
 ax.set_xlim(0, 1)
 ax.set_yticks([])
