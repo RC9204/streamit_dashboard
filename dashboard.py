@@ -82,7 +82,7 @@ top_10_features = top_10_features[['Feature', 'Importance Relative', 'Direction'
 top_10_features['Importance Relative'] = top_10_features['Importance Relative'].apply(lambda x: f'{x:.2f}')
 
 st.markdown("### Top 10 des Features par Importance Relative")
-st.dataframe(pd.DataFrame(formatted_top_10_features, columns=top_10_features.columns))
+st.table(top_10_features)
 
 selected_feature = st.selectbox('Selectionnez une 1ere feature :', top_20_features)
 selected_feature2 = st.selectbox('Selectionnez une 2eme feature :', top_20_features)
