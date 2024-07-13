@@ -3,11 +3,9 @@ import json
 import streamlit as st
 import pandas as pd
 import shap
-import lightgbm as lgb
 import random
 import pickle
 import matplotlib.pyplot as plt
-from sklearn.model_selection import train_test_split
 
 url = 'https://projet-17-rcuaz-heroku-0e22e8a46c1f.herokuapp.com/predict'
 headers = {'Content-Type': 'application/json'}
