@@ -81,15 +81,14 @@ top_10_features['Direction'] = ['+' if value > 0 else '-' for value in top_10_fe
 top_10_features = top_10_features[['Feature', 'Importance Relative', 'Direction']]
 top_10_features['Importance Relative'] = top_10_features['Importance Relative'].apply(lambda x: f'{x:.2f}')
 
-def apply_color(row):
-    if row['Direction'] == '+':
-        color = 'blue'
-    else:
-        color = 'red'
-    return [f'color: {color}']*len(row)
+formatted_top_10_features = []
+for idx, row in top_10_features.iterrows():
+    direction_style = 'color: blue' if row['Direction'] == '+' else 'color: red'
+    formatted_row = [f'<span style="{direction_style}">{row[col]}</span>' for col in top_10_features.columns]
+    formatted_top_10_features.append(formatted_row)
 
 st.markdown("### Top 10 des Features par Importance Relative")
-st.dataframe(top_10_features.style.apply(apply_color, axis=1), unsafe_allow_html=True)
+st.dataframe(pd.DataFrame(formatted_top_10_features, columns=top_10_features.columns))
 
 selected_feature = st.selectbox('Selectionnez une 1ere feature :', top_20_features)
 selected_feature2 = st.selectbox('Selectionnez une 2eme feature :', top_20_features)
