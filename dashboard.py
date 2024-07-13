@@ -3,7 +3,6 @@ import json
 import streamlit as st
 import pandas as pd
 import shap
-import random
 import pickle
 import matplotlib.pyplot as plt
 
