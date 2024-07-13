@@ -26,7 +26,6 @@ importance_df = importance_df.sort_values(by='Importance', ascending=False)
 top_20_features = importance_df.head(20)['Feature'].tolist()
 
 selected_client_id = st.selectbox('Selectionnez un client :', sub_X_test['SK_ID_CURR'])
-random_observation_df = sub_X_test[sub_X_test['SK_ID_CURR'] == selected_client_id]
 
 data = {'SK_ID_CURR': selected_client_id}
 response = requests.post(url, data=json.dumps(data), headers=headers)
@@ -35,6 +34,7 @@ y_pred_proba = response.json()
 threshold = 0.4
 credit_accepted = 'Non' if y_pred_proba >= threshold else 'Oui'
 
+random_observation_df = sub_X_test[sub_X_test['SK_ID_CURR'] == selected_client_id]
 explainer = shap.TreeExplainer(modeleP17)
 shap_values = explainer.shap_values(random_observation_df)
 
@@ -72,20 +72,24 @@ st.markdown("### Feature Importance Locale")
 fig_force = shap.force_plot(explainer.expected_value, shap_values[0, :], random_observation_df.iloc[0, :])
 st_shap(fig_force, height=150)
 
-local_shap_values = shap_values[0, :]
-
 feature_importance = np.abs(shap_values).mean(axis=0)
 importance_df = pd.DataFrame({'Feature': random_observation_df.columns, 'Importance Relative': feature_importance})
+importance_df['Valeur SHAP'] = shap_values
 importance_df = importance_df.sort_values(by='Importance Relative', ascending=False)
 top_10_features = importance_df.head(10)
-
-local_shap_values = shap_values[0, :]
-
-top_10_features['Direction'] = ['+' if value > 0 else '-' for value in top_10_features['Importance Relative']]
+top_10_features['Direction'] = ['+' if value > 0 else '-' for value in top_10_features['Valeur SHAP']]
 top_10_features = top_10_features[['Feature', 'Importance Relative', 'Direction']]
 top_10_features['Importance Relative'] = top_10_features['Importance Relative'].apply(lambda x: f'{x:.2f}')
+
+def apply_color(row):
+    if row['Direction'] == '+':
+        color = 'blue'
+    else:
+        color = 'red'
+    return [f'color: {color}']*len(row)
+
 st.markdown("### Top 10 des Features par Importance Relative")
-st.table(top_10_features)
+st.dataframe(top_10_features.style.apply(apply_color, axis=1), unsafe_allow_html=True)
 
 selected_feature = st.selectbox('Selectionnez une 1ere feature :', top_20_features)
 selected_feature2 = st.selectbox('Selectionnez une 2eme feature :', top_20_features)
