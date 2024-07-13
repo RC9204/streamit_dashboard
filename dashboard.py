@@ -80,22 +80,9 @@ top_10_features = importance_df.head(10)
 top_10_features['Direction'] = ['+' if value > 0 else '-' for value in top_10_features['Valeur SHAP']]
 top_10_features = top_10_features[['Feature', 'Importance Relative', 'Direction']]
 top_10_features['Importance Relative'] = top_10_features['Importance Relative'].apply(lambda x: f'{x:.2f}')
-top_10_features['Color'] = ['color: blue' if direction == '+' else 'color: red' for direction in top_10_features['Direction']]
 
 st.markdown("### Top 10 des Features par Importance Relative")
-
-table_content = []
-for idx, row in top_10_features.iterrows():
-    feature_name = row['Feature']
-    importance_value = f"{row['Importance Relative']:.2f}"
-    direction = row['Direction']
-    color = row['Color']
-    table_content.append(f"<div style='{color}'>{feature_name}</div>\t{importance_value}\t<div style='{color}'>{direction}</div>")
-
-# st.dataframe(pd.DataFrame(formatted_top_10_features, columns=top_10_features.columns))
-st.markdown("\n".join(table_content), unsafe_allow_html=True)
-
-
+st.dataframe(pd.DataFrame(formatted_top_10_features, columns=top_10_features.columns))
 
 selected_feature = st.selectbox('Selectionnez une 1ere feature :', top_20_features)
 selected_feature2 = st.selectbox('Selectionnez une 2eme feature :', top_20_features)
