@@ -82,7 +82,7 @@ selected_feature = st.selectbox('Selectionnez une 1ere feature :', top_20_featur
 selected_feature2 = st.selectbox('Selectionnez une 2eme feature :', top_20_features)
 
 if selected_feature:
-    feature_data = X_test[selected_feature]
+    feature_data = sub_X_test[selected_feature]
     fig_client_value, ax_client_value = plt.subplots()
     feature_values = feature_data.values
     client_value = random_observation_df[selected_feature].values[0]
@@ -95,7 +95,7 @@ if selected_feature:
     st.pyplot(fig_client_value)
 
 if selected_feature2:
-    feature_data2 = X_test[selected_feature2]
+    feature_data2 = sub_X_test[selected_feature2]
     fig_client_value2, ax_client_value2 = plt.subplots()
     feature_values2 = feature_data2.values
     client_value2 = random_observation_df[selected_feature2].values[0]
