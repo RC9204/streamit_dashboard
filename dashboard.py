@@ -74,7 +74,7 @@ st_shap(fig_force, height=150)
 
 feature_importance = np.abs(shap_values).mean(axis=0)
 importance_df = pd.DataFrame({'Feature': random_observation_df.columns, 'Importance Relative': feature_importance})
-importance_df['Valeur SHAP'] = shap_values
+importance_df['Valeur SHAP'] = shap_values[0, :]
 importance_df = importance_df.sort_values(by='Importance Relative', ascending=False)
 top_10_features = importance_df.head(10)
 top_10_features['Direction'] = ['+' if value > 0 else '-' for value in top_10_features['Valeur SHAP']]
